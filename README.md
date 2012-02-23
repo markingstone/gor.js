@@ -23,7 +23,7 @@ Now, `cd` to `myproj` and initialize your app:
 
 Let's see if everything is in order. Run the Gor.js node server:
 
-    node system/server.js
+    node app.node/server.js
 
 Point your browser to `localhost:9999`. You should see a blank Bootstrap page with your application title.
 
@@ -56,7 +56,7 @@ External libraries and toolkits goes into `vendor`. This is where you'll `git su
 
 Last but not least, the `stencils` folder holds template files that Gor.js will use to help you kickstart views, controllers, templates and other pieces of code.
 
-### Deeper into the rabbit hole... 
+### Deeper inside the rabbit hole... 
 
 Let's examine what goes under `myproj/source`:
 

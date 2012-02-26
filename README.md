@@ -36,7 +36,7 @@ After refreshing the page you should see a new menu item and the scaffold defaul
 
 ## How everything works?
 
-Let start digging into the Gor.js structure and machinery.
+Let take a closer look at the Gor.js structure and machinery.
 
 ### Project Structure
 
@@ -57,7 +57,7 @@ External libraries and toolkits goes into `vendor`. This is where you'll `git su
 
 The `stencils` folder holds template files that Gor.js will use to help you kickstart views, controllers, templates and other pieces of code.
 
-And last but not least, the Gor.js `Makefile`. You can use it recipes to perform various tasks such as generating stencils code or building your public assets. 
+And last but not least, the Gor.js `Makefile`. You can use its recipes to perform various tasks such as stenciling pieces of code or building your public assets. 
 
 ### Deeper inside the rabbit hole... 
 
@@ -84,7 +84,7 @@ Let's examine what goes under `myproj/source`:
 
 Some clarifications:
 
-* `source/app.ember` - Ember.js client-side code goes in here.
+* `source/app.ember` - Your Ember.js client-side code goes in here.
 
 * `source/app.ember/layouts/application.html` - The index.html base file. Running `make html` will use this file to generate the full `index.html`.
 
@@ -92,11 +92,11 @@ Some clarifications:
 
 * `source/app.node` - Node.js server side code
 
-* `source/app.node/handlers` - Express.js REST API handlers
+* `source/app.node/handlers` - Express REST API handlers
 
 * `source/app.node/schema` - Mongoose schema files for your model
 
-* `source/app.node/server.js` - The Gor.js server. You can use `node source/app.node/server.js` to run or use your favorite node runner (for example, _always_) to run.
+* `source/app.node/server.js` - The Gor.js server. You can use `node source/app.node/server.js` to run it or use your favorite node runner (for example, _always_).
 
 ### Generating index.html and app.js
 
@@ -111,11 +111,11 @@ or simply:
 
 ### Stenciling
 
-You can use the Makefile stenciling recipes to generate boilerplate code for your app. To generate the complete set of assets for a single resource use:
+You can use the Makefile stenciling recipes to generate code for your app. To generate the complete set of assets for a single resource use:
 
     make scaffold for=book
 
-Gor.js will then invoke a set of stencil recipes that will generate a controller, a model, a set of views, menu item and a node express.js api handlers. Running `make scaffold` is equivalent to running:
+Gor.js will then invoke a set of stencil recipes that will generate a controller, a model, a set of views, menu item and an Express REST API handlers. Running `make scaffold` is equivalent to running:
 
     make stencil model=book
     make stencil view=book
@@ -127,12 +127,44 @@ Don't forget to regenerate your assets:
 
     make all
 
+### Handlebars Templates and Ember Views
+
+When regenerating your assets, the Gor.js Makefile concatenates your Handlebars templates and builds the complete `index.html` file. When doing so Gor.js follows the convention of naming these templates by joining the leaf folder name with the template base filename. So for example, if you have the following templates:
+
+    [myproj]
+        [source]
+            [app.ember]
+                [templates]
+                    [unicorns]
+                        form.hb.html
+                        list.hb.html
+                    [dragons]
+                        list.hb.html
+                        item.hb.html
+
+The templates for Ember.js will be rendered as:
+
+    <script type="text/x-handlebars" data-template-name="unicorns-form">
+        ...
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="unicorns-list">
+        ...
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="dragons-list">
+        ...
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="dragons-item">
+        ...
+    </script>
 
 ## Vim shortcuts
 
 When working with Vim, you can create a nice shortcut to save and rebuild your assets after you change one of your Ember.js related source files:
 
-    :map ,w :w\|:silent !make all<cr>\|redraw!<cr>
+    :map ,w :w\|:silent !cd ..; make all<cr>\|redraw!<cr>
 
 Now, instead of using :w use ,w to save and rebuild your assets.
 

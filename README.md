@@ -12,9 +12,13 @@ Gor.js can help you kickstart your next project, adding Bootstrap, Express and M
 Not really. Gor.js is still mostly work-in-progress.
 
 ## Never mind, I'm in...
+You'll need to have Node.js installed and a MongoDB server running.
+
 Begin by cloning Gor.js to generate your project root folder:
 
 	git clone https://github.com/markingstone/gor.js myproj
+
+You can also just download and extract a zipball.
 
 Now, `cd` to `myproj` and initialize your app:
 
@@ -59,7 +63,7 @@ The `stencils` folder holds template files that Gor.js will use to help you kick
 
 And last but not least, the Gor.js `Makefile`. You can use its recipes to perform various tasks such as stenciling pieces of code or building your public assets. 
 
-### Deeper inside the rabbit hole... 
+### Some more detail...
 
 Let's examine what goes under `myproj/source`:
 
@@ -127,6 +131,9 @@ Don't forget to regenerate your assets:
 
     make all
 
+You should feel comfortable changing the template files based on your needs and style. For instance, you may want to use a more DRY method for accessing your API server, or perhaps use ember-data or ember-rest.
+
+
 ### Handlebars Templates and Ember Views
 
 When regenerating your assets, the Gor.js Makefile concatenates your Handlebars templates and builds the complete `index.html` file. When doing so Gor.js follows the convention of naming these templates by joining the leaf folder name with the template base filename. So for example, if you have the following templates:
@@ -168,3 +175,8 @@ When working with Vim, you can create a nice shortcut to save and rebuild your a
 
 Now, instead of using :w use ,w to save and rebuild your assets.
 
+## TBD
+* Makefile vs Javascript
+* Integrate with ember-data?
+* Authentication boilerplate?
+* (your own ideas...)

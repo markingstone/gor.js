@@ -1,0 +1,21 @@
+<td> 
+{{view Ember.Checkbox classNames="@RESOURCE@-checkbox" valueBinding="item.isSelected" }} 
+</td>
+<td>
+{{item.stringAttr }} 
+</td> 
+<td>
+{{item.referenceAttr.label }} 
+</td> 
+<td>
+{{item.integerAttr }} 
+</td> 
+<td>
+{{item.booleanAttr }} 
+</td> 
+<td>
+{{#view Ember.Button classNames="btn" action="edit" target="parentView"}}
+Edit
+{{/view}} 
+<td>
+

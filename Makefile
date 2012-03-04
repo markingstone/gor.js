@@ -37,7 +37,9 @@ app.js:
 	@$(INFO) "generating $(APP_TARGET)\n"
 	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_app.js > $(APP_TARGET)
 	@find $(APP_PATH) | grep .js$$ | xargs cat >> $(APP_TARGET) 
+ifdef release
 	@uglifyjs --overwrite $(APP_TARGET)
+endif
 
 html: 
 	@$(eval TEMP_ASSETS_FILE := $(shell mktemp -t gorjsXXXXXXXXXX))
@@ -55,12 +57,16 @@ npm_install:
 
 
 submodules:
+	@$(INFO) "downloading Twitter Bootstrap"
 	@mkdir -p vendor/bootstrap
 	@cd vendor/bootstrap ; curl http://twitter.github.com/bootstrap/assets/bootstrap.zip -O
+	@$(INFO) "downloading Ember.js"
 	@mkdir -p vendor/emberjs
 	@cd vendor/emberjs ; curl http://cloud.github.com/downloads/emberjs/ember.js/ember-0.9.5.min.js -O
+	@$(INFO) "downloading JQuery"
 	@mkdir -p vendor/jquery
 	@cd vendor/jquery ; curl http://code.jquery.com/jquery.min.js -O ; curl http://code.jquery.com/jquery.js -O
+	@$(INFO) "copying stuff to public.."
 	@cp vendor/emberjs/ember*.min.js public/js/ember.min.js
 	@cd public ; unzip ../vendor/bootstrap/bootstrap.zip ; cp -R bootstrap/* . ; rm -R bootstrap
 	@cp vendor/jquery/* public/js/
@@ -174,11 +180,16 @@ ifeq ($(wildcard $(APP_PATH)/views/$(view)),)
 	@$(INFO) "generating views for $(SUBJECT_COLOR)$(view)$(NO_COLOR) from stencils\n"
 	@mkdir $(APP_PATH)/views/$(view)s
 	@mkdir $(APP_PATH)/templates/$(view)s
-	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_view.js > $(APP_PATH)/views/$(view)s/list.js
 	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_menu_item.js > $(APP_PATH)/views/$(view)s/menu.js
 	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_menu_item.hb.html >> $(APP_PATH)/templates/mainmenu.hb.html
-	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_row.hb.html > $(APP_PATH)/templates/$(view)s/item.hb.html
-	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_table.hb.html > $(APP_PATH)/templates/$(view)s/list.hb.html
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_list.js > $(APP_PATH)/views/$(view)s/list.js
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_item.js > $(APP_PATH)/views/$(view)s/item.js
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_form.js > $(APP_PATH)/views/$(view)s/form.js
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_toolbar.js > $(APP_PATH)/views/$(view)s/toolbar.js
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_list.hb.html > $(APP_PATH)/templates/$(view)s/list.hb.html
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_item.hb.html > $(APP_PATH)/templates/$(view)s/item.hb.html
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_form.hb.html > $(APP_PATH)/templates/$(view)s/form.hb.html
+	@$(TEMPLATE) $(STENCILS_PATH)/emberjs_views_toolbar.hb.html > $(APP_PATH)/templates/$(view)s/toolbar.hb.html
 else 
 	@$(ERR) "View folder $(SUBJECT_COLOR)$(view)$(NO_COLOR) already exists\n"
 endif

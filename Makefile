@@ -44,8 +44,7 @@ endif
 html: 
 	@$(eval TEMP_ASSETS_FILE := $(shell mktemp -t gorjsXXXXXXXXXX))
 	@$(INFO) "generating $(HTML_OUTPUT)\n"
-	@find $(APP_PATH)/templates | grep .html$$ | xargs -L1 -n2 -I % env val=% awk 'BEGIN {split(ENVIRON["val"],arr,"[./]") ; print "<script type=\"text/x-handlebars\" data-template-name=\"" arr[length(arr)-3]"-"arr[length(arr)-2] "\">"} {print $0} END {print "</script>"}' % > $(TEMP_ASSETS_FILE) ; sed -e '/templates/r '$(TEMP_ASSETS_FILE) -e '/templates/d' $(HTML_LAYOUT) > $(HTML_OUTPUT) ; rm $(TEMP_ASSETS_FILE)
-
+	
 clean: 
 	@$(INFO) "removing generated javascript files"
 	@rm -f $(APP_TARGET)
